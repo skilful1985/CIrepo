@@ -1,0 +1,35 @@
+---
+- name: Deploy nmap
+  hosts: myhosts
+
+  tasks:
+  - name: Install nmap 
+    ansible.builtin.apt:
+      name: nmap
+      state: latest
+      update_cache: yes
+    tags:
+      - Install
+
+  - name: Output target
+    loop: "{{ lookup('file', './target.txt').splitlines() }}"
+    ansible.builtin.debug:
+      msg: "{{ item }}"
+    tags:
+      - target
+
+  - name: Run nmap
+    loop: "{{ lookup('file', './target.txt').splitlines() }}"
+    ansible.builtin.command: "nmap {{ item }} -oG -"
+    register: nmap_results
+    tags:
+      - nmap
+  
+  - name: Nmap output
+    loop: "{{ nmap_results.results }}"
+    ansible.builtin.debug:
+      msg: "{{ item.stdout_lines }}"
+    loop_control:
+      label: "{{ item.item }}"
+    tags:
+      - result
