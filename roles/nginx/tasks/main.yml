@@ -1,9 +1,9 @@
 # Устанавливаем nginx
-- name: Install nginx 
+- name: Install nginx
   ansible.builtin.apt:
     name: nginx
     state: latest
-    update_cache: yes
+    update_cache: true
 
 # Копируем файл конфигурации сайта на сервер с заменой имени и содержимого
 # Список сайтов берем из файла
@@ -43,3 +43,4 @@
     group: root
     mode: '0644'
   notify: restart nginx
+  
