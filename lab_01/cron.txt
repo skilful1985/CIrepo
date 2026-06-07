@@ -1,3 +1,0 @@
-Содержимое файла cron
-
-* * * * * /home/user1/devops/lab_01/lab_01.sh Perm > /dev/null 2>&1
